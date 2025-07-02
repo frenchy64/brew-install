@@ -3,7 +3,7 @@ class ClojureAT${version.short} < Formula
   homepage "https://clojure.org"
   url "https://github.com/clojure/brew-install/releases/download/${project.version}/clojure-tools-${project.version}.tar.gz"
   mirror "https://download.clojure.org/install/clojure-tools-${project.version}.tar.gz"
-  sha256 "SHA"
+  sha256 "◊TARSHA◊"
   license "EPL-1.0"
 
   depends_on "rlwrap"

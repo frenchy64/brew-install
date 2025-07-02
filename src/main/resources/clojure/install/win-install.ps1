@@ -10,6 +10,8 @@ Write-Host 'Downloading Clojure tools' -ForegroundColor Gray
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Tls12'
 Invoke-WebRequest -Uri $ClojureToolsUrl -OutFile clojure-tools.zip
 
+#TODO echo "◊ZIPSHA◊" "clojure-tools.zip" | sha256sum --check clojure-tools.zip | grep "^clojure-tools.zip: OK$"
+
 Write-Warning 'Clojure will install as a module in your PowerShell module path.'
 Write-Host ''
 Write-Host 'Possible install locations:'
