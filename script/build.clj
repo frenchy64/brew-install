@@ -70,7 +70,7 @@
   (b/zip {:src-dirs [zip-dir] :zip-file zip-file})
   (b/copy-file {:src (str filtered-dir "/clojure/install/win-install.ps1") :target (str target-dir "/win-install.ps1")})
 
-  ;; Embed tar/zip checksums within installers
+  ;; Embed artifact checksums within installers
   (let [sha256sum #(-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))
         tarsha (sha256sum tar-file)
         zipsha (sha256sum zip-file)]
