@@ -71,15 +71,12 @@
   (b/copy-file {:src (str filtered-dir "/clojure/install/win-install.ps1") :target (str target-dir "/win-install.ps1")})
 
   ;; Embed artifact checksums within installers
-  (let [sha256sum #(-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))
-        tarsha (sha256sum tar-file)
-        zipsha (sha256sum zip-file)]
+  (let [sha #(-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))]
     (run! (fn [{:keys [src target]}]
             (let [target (str target-dir "/" (or target (peek (str/split src #"/"))))
                   src (str filtered-dir "/" src)]
               (b/write-file {:path target
-                             :string (-> (slurp src)
-                                         (str/replace "SHA" tarsha))})))
+                             :string (str/replace (slurp src) "SHA" sha)})))
           [{:src "clojure/install/clojure.rb"}
            {:src "clojure/install/clojure@version.rb"
             :target (format "clojure@%s.rb" version)}
