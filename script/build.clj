@@ -71,14 +71,12 @@
   (b/copy-file {:src (str filtered-dir "/clojure/install/win-install.ps1") :target (str target-dir "/win-install.ps1")})
 
   ;; Embed artifact checksums within installers
-  (let [sha (-> (:out (b/process {:command-args ["shasum" "-a" "256" tar-file] :out :capture})) (subs 0 64))
-    (run! (fn [{:keys [src target]}]
-            (let [target (str target-dir "/" (or target (peek (str/split src #"/"))))
-                  src (str filtered-dir "/" src)]
-              (b/write-file {:path target
-                             :string (str/replace (slurp src) "SHA" sha)})))
-          [{:src "clojure/install/clojure.rb"}
-           {:src "clojure/install/clojure@version.rb"
-            :target (format "clojure@%s.rb" version)}
-           {:src "clojure/install/linux-install.sh"}
-           {:src "clojure/install/posix-install.sh"}])))
+  (let [sha (-> (:out (b/process {:command-args ["shasum" "-a" "256" tar-file] :out :capture})) (subs 0 64))]
+    (doseq [[src target] [["clojure/install/clojure.rb"]
+                          ["clojure/install/clojure@version.rb" (format "clojure@%s.rb" version)]
+                          ["clojure/install/linux-install.sh"]
+                          ["clojure/install/posix-install.sh"]]
+            :let [target (str target-dir "/" (or target (peek (str/split src #"/"))))
+                  src (str filtered-dir "/" src)]]
+      (b/write-file {:path target
+                     :string (str/replace (slurp src) "SHA" sha)}))))
