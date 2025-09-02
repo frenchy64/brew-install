@@ -71,7 +71,7 @@
   (b/copy-file {:src (str filtered-dir "/clojure/install/win-install.ps1") :target (str target-dir "/win-install.ps1")})
 
   ;; Embed artifact checksums within installers
-  (let [sha #(-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))]
+  (let [sha (-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))]
     (run! (fn [{:keys [src target]}]
             (let [target (str target-dir "/" (or target (peek (str/split src #"/"))))
                   src (str filtered-dir "/" src)]
