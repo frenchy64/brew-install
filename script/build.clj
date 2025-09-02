@@ -68,6 +68,7 @@
     (b/copy-file {:src (str filtered-dir "/clojure/install/" f) :target (str zip-dir "/ClojureTools/" f)}))
   (b/copy-dir {:src-dirs [target-dir] :target-dir (str zip-dir "/ClojureTools") :include "*.jar"})
   (b/zip {:src-dirs [zip-dir] :zip-file zip-file})
+  (b/copy-file {:src (str filtered-dir "/clojure/install/win-install.ps1") :target (str target-dir "/win-install.ps1")})
 
   ;; Embed tar/zip checksums within installers
   (let [sha256sum #(-> (:out (b/process {:command-args ["shasum" "-a" "256" %] :out :capture})) (subs 0 64))
@@ -83,5 +84,4 @@
            {:src "clojure/install/clojure@version.rb"
             :target (format "clojure@%s.rb" version)}
            {:src "clojure/install/linux-install.sh"}
-           {:src "clojure/install/posix-install.sh"}
-           {:src "clojure/install/win-install.ps1"}])))
+           {:src "clojure/install/posix-install.sh"}])))
