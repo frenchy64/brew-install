@@ -78,8 +78,7 @@
                   src (str filtered-dir "/" src)]
               (b/write-file {:path target
                              :string (-> (slurp src)
-                                         (str/replace "◊TARSHA◊" tarsha)
-                                         (str/replace "◊ZIPSHA◊" zipsha))})))
+                                         (str/replace "SHA" tarsha))})))
           [{:src "clojure/install/clojure.rb"}
            {:src "clojure/install/clojure@version.rb"
             :target (format "clojure@%s.rb" version)}
