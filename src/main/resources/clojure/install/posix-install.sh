@@ -27,6 +27,7 @@ fi
 
 echo "Downloading and expanding tar"
 curl -L -O https://github.com/clojure/brew-install/releases/download/${project.version}/clojure-tools-${project.version}.tar.gz
+echo "SHA  clojure-tools-${project.version}.tar.gz" | shasum -a 256 -c | grep "^clojure-tools-${project.version}.tar.gz: OK$"
 tar xzf clojure-tools-${project.version}.tar.gz
 
 lib_dir="$prefix_dir/lib"
